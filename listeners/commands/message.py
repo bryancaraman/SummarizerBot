@@ -1,8 +1,8 @@
 class Message:
-    def __init__(self, text, ts, user='Not specified'):
+    def __init__(self, text, link, user='Not specified'):
         self.message_data = {
             "text": text,
-            "ts": ts,
+            "link": link,
             "user": user
         }
 

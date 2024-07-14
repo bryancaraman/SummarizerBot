@@ -20,7 +20,7 @@ def summarize_command_callback(command, ack: Ack, respond: Respond, logger: Logg
             respond(input_response)
             return
         
-        respond(f"Summary of the last {command['text']}: ")
+        respond(f"Summary of the last {command['text']}... ")
 
         # Calculate when the time interval for getting messages
         oldest_time = calculate_interval(command['text'])
@@ -41,8 +41,6 @@ def summarize_command_callback(command, ack: Ack, respond: Respond, logger: Logg
 
         messages = []
 
-        print(conversation_history)
-
         # IF USERNAME IS WANTED FOR MORE SPECIFIC SUMMARY, WARNING: TAKES LONG
         # user_data = client.users_profile_get(user=message['user'])
         # user = user_data['profile']['real_name']
@@ -51,11 +49,19 @@ def summarize_command_callback(command, ack: Ack, respond: Respond, logger: Logg
             if message['type'] == 'message':
                 text = message['text']
                 ts = message['ts']
-                new_message = Message(text, ts)
+
+                try:
+                    link_response = client.chat_getPermalink(channel=channel_id, message_ts=ts)
+                except SlackApiError as e:
+                    logger.error("Error get message link: {}".format(e))
+
+                link = link_response['permalink']
+                new_message = Message(text, link)
                 messages.append(new_message)
 
         if len(messages) == 0:
-            respond(f"No messages within the last {command['text']}")
+            respond(f"No messages within the last {command['text']}.")
+            return
 
         summary = get_summary(messages)
 

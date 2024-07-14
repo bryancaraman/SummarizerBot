@@ -5,6 +5,8 @@ from slack_sdk.errors import SlackApiError
 from logging import Logger
 from .validate_input import validate_input
 from .calculate_interval import calculate_interval
+from .get_summary import get_summary
+from .message import Message
 
 client = WebClient(token=os.environ.get("SLACK_BOT_TOKEN"))
 
@@ -36,6 +38,28 @@ def summarize_command_callback(command, ack: Ack, respond: Respond, logger: Logg
 
         # Get array in order from oldest message to newest message
         conversation_history.reverse()
+
+        messages = []
+
+        print(conversation_history)
+
+        # IF USERNAME IS WANTED FOR MORE SPECIFIC SUMMARY, WARNING: TAKES LONG
+        # user_data = client.users_profile_get(user=message['user'])
+        # user = user_data['profile']['real_name']
+
+        for message in conversation_history:
+            if message['type'] == 'message':
+                text = message['text']
+                ts = message['ts']
+                new_message = Message(text, ts)
+                messages.append(new_message)
+
+        if len(messages) == 0:
+            respond(f"No messages within the last {command['text']}")
+
+        summary = get_summary(messages)
+
+        respond(summary)
         
     except Exception as e:
         logger.error(e)

@@ -36,3 +36,6 @@ tmp.txt
 logs/
 *.db
 .pytype/
+
+# tokens
+config.py

@@ -7,6 +7,7 @@ from .validate_input import validate_input
 from .calculate_interval import calculate_interval
 from .get_summary import get_summary
 from .message import Message
+from .process_message import process_message
 
 client = WebClient(token=os.environ.get("SLACK_BOT_TOKEN"))
 
@@ -34,37 +35,37 @@ def summarize_command_callback(command, ack: Ack, respond: Respond, logger: Logg
         except SlackApiError as e:
             logger.error("Error getting conversation: {}".format(e))
 
-        # STRETCH GOAL: GET MESSAGES IN THREADS AS WELL
-
         # Get array in order from oldest message to newest message
         conversation_history.reverse()
 
         messages = []
 
-        # IF USERNAME IS WANTED FOR MORE SPECIFIC SUMMARY, WARNING: TAKES LONG
+        # IF USERNAME IS WANTED FOR MORE SPECIFIC SUMMARY
+        # WARNING: API CALL NEEDED FOR EACH MESSAGE, i.e. ALREADY LONG BUT EVEN LONGERRRRR
+        # Future: Implement in specificity mode?
         # user_data = client.users_profile_get(user=message['user'])
         # user = user_data['profile']['real_name']
 
         for message in conversation_history:
             if message['type'] == 'message':
-                text = message['text']
-                ts = message['ts']
+                # If there is a thread
+                if 'thread_ts' in message:
+                    # Get thread replies
+                    replies = client.conversations_replies(channel=channel_id, ts=message['thread_ts'])
+                    for reply in replies['messages']:
+                        process_message(reply, client, channel_id, messages)
+                    continue
 
-                try:
-                    link_response = client.chat_getPermalink(channel=channel_id, message_ts=ts)
-                except SlackApiError as e:
-                    logger.error("Error get message link: {}".format(e))
-
-                link = link_response['permalink']
-                new_message = Message(text, link)
-                messages.append(new_message)
+                process_message(message, client, channel_id, messages)
 
         if len(messages) == 0:
             respond(f"No messages within the last {command['text']}.")
             return
 
+        # Get summary from AI
         summary = get_summary(messages)
 
+        # Display summary for user
         respond(summary)
         
     except Exception as e:

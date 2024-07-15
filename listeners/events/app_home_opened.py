@@ -12,18 +12,83 @@ def app_home_opened_callback(client, event, logger: Logger):
                 "type": "home",
                 "blocks": [
                     {
-                        "type": "section",
+                        "type": "header",
                         "text": {
-                            "type": "mrkdwn",
-                            "text": "*Welcome home, <@" + event["user"] + "> :house:*",
+                            "type": "plain_text",
+                            "text": "Welcome to Summarizer!",
                         },
                     },
                     {
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "Learn how home tabs can be more useful and "
-                            + "interactive <https://api.slack.com/surfaces/tabs/using|*in the documentation*>.",
+                            "text": "\n"
+                        },
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "\n"
+                        },
+                    },
+                    {
+                        "type": "divider"
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "\n"
+                        },
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "*Get Started:*\n"
+                        },
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": 
+                              "*1.* Invite Summarizer to a channel or group message that you want to use it in:\n" 
+                            + "         *-* Example: */invite @Summarizer*\n"
+                            + "*2.* Use the summarize command and specify how long you want a summary for:\n"
+                            + "         *-* Options: \n"
+                            + "                  *1.* week\n"
+                            + "                  *2.* _ days\n"
+                            + "                  *3.* day\n"
+                            + "                  *4.* _ hours\n"
+                            + "                  *5.* hour\n"
+                            + "         *-* Example: */summarize day*\n"
+                            + "*3.* Wait a few seconds until the summary displays in the channel!\n"
+                        },
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "\n"
+                        },
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "\n"
+                        },
+                    },
+                    {
+                        "type": "divider"
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "\n"
                         },
                     },
                 ],

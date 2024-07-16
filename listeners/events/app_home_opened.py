@@ -36,17 +36,10 @@ def app_home_opened_callback(client, event, logger: Logger):
                         "type": "divider"
                     },
                     {
-                        "type": "section",
+                        "type": "header",
                         "text": {
-                            "type": "mrkdwn",
-                            "text": "\n"
-                        },
-                    },
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "*Get Started:*\n"
+                            "type": "plain_text",
+                            "text": "Get Started:\n"
                         },
                     },
                     {
@@ -54,17 +47,57 @@ def app_home_opened_callback(client, event, logger: Logger):
                         "text": {
                             "type": "mrkdwn",
                             "text": 
-                              "*1.* Invite Summarizer to a channel or group message that you want to use it in:\n" 
-                            + "         *-* Example: */invite @Summarizer*\n"
-                            + "*2.* Use the summarize command and specify how long you want a summary for:\n"
-                            + "         *-* Options: \n"
-                            + "                  *1.* week\n"
-                            + "                  *2.* _ days\n"
-                            + "                  *3.* day\n"
-                            + "                  *4.* _ hours\n"
-                            + "                  *5.* hour\n"
-                            + "         *-* Example: */summarize day*\n"
-                            + "*3.* Wait a few seconds until the summary displays in the channel!\n"
+                              "*1.* Invite Summarizer to a *channel* or *group message* that you want to use it in:\n"
+                        },
+                    },
+                    {
+			            "type": "rich_text",
+			            "elements": [
+				            {
+                                "type": "rich_text_quote",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "/invite @Summarizer\n"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": 
+                              "*2.* Use the *summarize* command and specify *how long* you want a summary for:\n"
+                            + "       *>* Options: \n"
+                            + "                *>*  week\n"
+                            + "                *>*  _ days\n"
+                            + "                *>*  day\n"
+                            + "                *>*  _ hours\n"
+                            + "                *>*  hour\n"
+                        },
+                    },
+                    {
+			            "type": "rich_text",
+			            "elements": [
+				            {
+                                "type": "rich_text_quote",
+                                "elements": [
+                                    {
+                                        "type": "text",
+                                        "text": "/summarize 12 hours\n"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": 
+                              "*That's it!*\nWait a few seconds until the summary displays in the channel!\n"
                         },
                     },
                     {

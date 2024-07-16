@@ -1,6 +1,6 @@
 from slack_bolt import App
-from .sample_shortcut import sample_shortcut_callback
+from .schedule_summary import schedule_summary_callback
 
 
 def register(app: App):
-    app.shortcut("sample_shortcut_id")(sample_shortcut_callback)
+    app.shortcut("schedule_summary_id")(schedule_summary_callback)

@@ -1,7 +1,7 @@
-import os
+from config import SLACK_BOT_TOKEN
 from slack_bolt import Ack, Respond
-from slack_sdk import WebClient
-from slack_sdk.errors import SlackApiError
+from slack_sdk import WebClient 
+from slack_sdk.errors import SlackApiError 
 from logging import Logger
 from .validate_input import validate_input
 from .calculate_interval import calculate_interval
@@ -9,24 +9,37 @@ from .get_summary import get_summary
 from .message import Message
 from .process_message import process_message
 
-client = WebClient(token=os.environ.get("SLACK_BOT_TOKEN"))
-
 def summarize_command_callback(command, ack: Ack, respond: Respond, logger: Logger):
+    client = WebClient(SLACK_BOT_TOKEN)
+
     try:
         ack()
+
+        channel_id = command['channel_id']
 
         # Check for valid input
         input_response = validate_input(command['text'])
         if not input_response == 'Valid':
-            respond(input_response)
+            if 'schedule' in command:
+                client.api_call(
+                    api_method='chat.postMessage',
+                    json={'channel': channel_id, 'text': input_response}
+                )
+            else:
+                respond(input_response)
             return
         
-        respond(f"Summary of the last {command['text']}... ")
+        if 'schedule' in command:
+            client.api_call(
+                api_method='chat.postMessage',
+                json={'channel': channel_id, 'text': f"Summary of the last {command['text']}... "}
+            )
+        else:
+            respond(f"Summary of the last {command['text']}... ")
 
         # Calculate when the time interval for getting messages
         oldest_time = calculate_interval(command['text'])
         
-        channel_id = command['channel_id']
         conversation_history = []
 
         try:
@@ -37,6 +50,10 @@ def summarize_command_callback(command, ack: Ack, respond: Respond, logger: Logg
 
         # Get array in order from oldest message to newest message
         conversation_history.reverse()
+
+        # Scheduled commands add two messages so remove them from summarized info
+        if 'schedule' in command:
+            del conversation_history[-2:]
 
         messages = []
 
@@ -59,14 +76,26 @@ def summarize_command_callback(command, ack: Ack, respond: Respond, logger: Logg
                 process_message(message, client, channel_id, messages)
 
         if len(messages) == 0:
-            respond(f"No messages within the last {command['text']}.")
+            if 'schedule' in command:
+                client.api_call(
+                    api_method='chat.postMessage',
+                    json={'channel': channel_id, 'text': f"No messages within the last {command['text']}."}
+                )
+            else:
+                respond(f"No messages within the last {command['text']}.")
             return
 
         # Get summary from AI
         summary = get_summary(messages)
 
         # Display summary for user
-        respond(summary)
+        if 'schedule' in command:
+            client.api_call(
+                api_method='chat.postMessage',
+                json={'channel': channel_id, 'text': summary}
+            )
+        else:
+            respond(summary)
         
     except Exception as e:
         logger.error(e)

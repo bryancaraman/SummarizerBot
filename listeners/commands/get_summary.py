@@ -1,12 +1,12 @@
 import requests
-from config import jwt
+from config import JWT
 
 def get_summary(conversation):
     # Endpoint for request
     url = 'https://caas.api.godaddy.com/v1/prompts'
 
     headers = {
-        'Authorization': f'sso-jwt {jwt}',
+        'Authorization': f'sso-jwt {JWT}',
         'accept': 'application/json',
         'Content-Type': 'application/json'
     }

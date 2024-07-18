@@ -24,13 +24,13 @@
                 "name": "Schedule summary",
                 "type": "global",
                 "callback_id": "schedule_summary_id",
-                "description": "Schedule a channel summary to display at a certain time."
+                "description": "Schedule channel summaries to display whenever you want!"
             }
         ],
         "slash_commands": [
             {
                 "command": "/summarize",
-                "description": "Summarizes channel messages",
+                "description": "Summarizes channel messages!",
                 "should_escape": false
             }
         ]

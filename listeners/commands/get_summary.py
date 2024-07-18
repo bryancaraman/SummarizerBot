@@ -27,4 +27,7 @@ def get_summary(conversation):
 
     response = requests.post(url, headers=headers, json=data)
 
-    return response.json()['data']['value']
+    try:
+        return response.json()['data']['value']
+    except:
+        return "GoCaaS authorization failed"

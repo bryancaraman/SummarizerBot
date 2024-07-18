@@ -15,7 +15,7 @@ def schedule_summary_callback(body: dict, ack: Ack, client: WebClient, logger: L
                 "title": {"type": "plain_text", "text": "Schedule summary"},
                 "blocks": [
                     {
-                        "block_id": "select_channel_block_id",
+                        "block_id": "select_channel_id",
                         "type": "input",
                         "label": {
                             "type": "plain_text",
@@ -29,15 +29,92 @@ def schedule_summary_callback(body: dict, ack: Ack, client: WebClient, logger: L
                     },
                     {
                         "type": "input",
-                        "block_id": "datetime_block_id",
+                        "element": {
+                            "type": "static_select",
+                            "placeholder": {
+                                "type": "plain_text",
+                                "text": "Day or Week",
+                            },
+                            "options": [
+                                {
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "Day",
+                                    },
+                                    "value": "value-0"
+                                },
+                                {
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "Week",
+                                    },
+                                    "value": "value-1"
+                                },
+                            ],
+                            "action_id": "summary_time_action"
+                        },
                         "label": {
                             "type": "plain_text",
-                            "text": "When do you want to see the summary?",
+                            "text": "Do you want summaries of the entire day's messages or the entire week's messages?",
+                        }
+                    },
+                    {
+                        "type": "input",
+                        "element": {
+                            "type": "static_select",
+                            "placeholder": {
+                                "type": "plain_text",
+                                "text": "Daily or Weekly",
+                            },
+                            "options": [
+                                {
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "Daily",
+                                    },
+                                    "value": "value-0"
+                                },
+                                {
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "Weekly",
+                                    },
+                                    "value": "value-1"
+                                },
+                            ],
+                            "action_id": "summary_frequency_action"
+                        },
+                        "label": {
+                            "type": "plain_text",
+                            "text": "How often should summaries repeat?",
+                        }
+                    },
+                    {
+                        "type": "input",
+                        "block_id": "first_summary_id",
+                        "label": {
+                            "type": "plain_text",
+                            "text": "When do you want to see the first summary?",
                         },
                         "element": {
                             "type": "datetimepicker",
-                            "action_id": "date_id",
+                            "action_id": "first_date_id",
                         },
+                    },
+                    {
+                        "type": "input",
+                        "element": {
+                            "type": "datepicker",
+                            "placeholder": {
+                                "type": "plain_text",
+                                "text": "Select a date.",
+                            },
+                            "action_id": "last_date_id"
+                        },
+                        "label": {
+                            "type": "plain_text",
+                            "text": "When do you want the last summary?",
+                        }
                     },
                 ],
                 "submit": {"type": "plain_text", "text": "Submit"},

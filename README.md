@@ -13,14 +13,14 @@ Before getting started, make sure you have a development workspace where you hav
 #### Configuration
 Before you can run the app, you'll need to store some tokens. Create a .config file and follow the steps below:
 
-1. Open your apps configuration page from this list, click **OAuth & Permissions** in the left hand menu, then copy the Bot User OAuth Token. You will store this in your environment as `SLACK_BOT_TOKEN`.
-2. Click ***Basic Information** from the left hand menu and follow the steps in the App-Level Tokens section to create an app-level token with the `connections:write` scope. Copy this token. You will store this in your environment as `SLACK_APP_TOKEN`.
+1. Open your apps configuration page from this list, click **OAuth & Permissions** in the left hand menu, then copy the Bot User OAuth Token. You will store this in the file as `SLACK_BOT_TOKEN`.
+2. Click ***Basic Information** from the left hand menu and follow the steps in the App-Level Tokens section to create an app-level token with the `connections:write` scope. Copy this token. You will store this in the file as `SLACK_APP_TOKEN`.
 
 
 ### Setup Local Project
 ```zsh
 # Clone this project onto your machine
-git clone https://github.com/slack-samples/bolt-python-starter-template.git
+git clone https://github.com/bryancaraman/Summarizer.git
 
 # Change into this project directory
 cd bolt-python-starter-template

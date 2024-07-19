@@ -1,5 +1,4 @@
-### Summarizer
-# Save time by summarizing any slack channel
+# Summarizer - Save time by summarizing any slack channel
 
 ### Setup Local Project
 ```zsh
